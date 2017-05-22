@@ -1,12 +1,12 @@
 {
   "name": "uglify-es-webpack-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UglifyJS3 (ES6) plugin for webpack",
   "main": "src/index.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/noBlubb/uglifyjs-webpack-plugin.git"
+    "url": "https://github.com/noBlubb/uglify-es-webpack-plugin.git"
   },
   "keywords": [
     "webpack",
@@ -19,11 +19,10 @@
     "url": ""
   },
   "homepage": "",
-  "peerDependencies": {
+  "dependencies": {
     "uglify-es": "^3.0.10",
-    "webpack": "^2.5.1"
+    "webpack-sources": "^0.2.3"
   },
-  "dependencies": {},
   "engines": {
     "node": ">=6.4.0"
   }
