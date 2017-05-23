@@ -50,6 +50,8 @@ class UglifyEsPlugin {
     /**
      * Extract source and optional source map from the asset
      *
+     * @see https://github.com/webpack/webpack-sources#sourceandmap
+     *
      * @param {Object}  asset
      * @param {Boolean} withSourceMap
      * @returns {Array}
