@@ -4,7 +4,7 @@ Webpack with UglifyJs3 / Harmony for ES6 optimization. Tested with:
 - uglify-es 3.0.10
 
 ## Installation
-`npm install uglify-es-webpack-plugin` or `yarn add upglify-es-webpack-plugin`
+`npm install uglify-es-webpack-plugin` or `yarn add uglify-es-webpack-plugin`
 
 ## Usage
 ```javascript
