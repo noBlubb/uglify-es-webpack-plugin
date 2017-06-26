@@ -8,6 +8,7 @@
 const UglifyEs = require('uglify-es');
 const RawSource = require("webpack-sources").RawSource;
 const SourceMapSource = require("webpack-sources").SourceMapSource;
+const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 
 class UglifyEsPlugin {
     constructor(options = {}) {
@@ -26,8 +27,9 @@ class UglifyEsPlugin {
     }
 
     static optimize(compilation, chunks, callback, withSourceMap) {
+        const filter = ModuleFilenameHelpers.matchObject.bind(undefined, {test: /\.js($|\?)/i});
         for (let chunk of chunks) {
-            for (let file of chunk.files) {
+            for (let file of chunk.files.filter(filter)) {
                 const asset = compilation.assets[file];
                 const [source, map] = UglifyEsPlugin.extract(asset, withSourceMap);
                 const result = UglifyEsPlugin.process(file, source, withSourceMap);
