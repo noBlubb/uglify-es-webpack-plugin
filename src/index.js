@@ -8,6 +8,7 @@
 const UglifyEs = require('uglify-es');
 const RawSource = require("webpack-sources").RawSource;
 const SourceMapSource = require("webpack-sources").SourceMapSource;
+const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 
 class UglifyEsPlugin {
     constructor(options = {}) {
@@ -17,25 +18,29 @@ class UglifyEsPlugin {
     apply(compiler) {
         compiler.plugin('compilation', (compilation) => {
                 const withSourceMap = compilation.options.devtool !== false;
+                const options = Object.assign({}, this.options);
+                if (withSourceMap)
+                    options.sourceMap = { filename, root: '' };
 
                 compilation.plugin('optimize-chunk-assets', (chunks, callback) =>
-                    UglifyEsPlugin.optimize(compilation, chunks, callback, withSourceMap)
+                    UglifyEsPlugin.optimize(compilation, chunks, callback, options)
                 );
             }
         );
     }
 
-    static optimize(compilation, chunks, callback, withSourceMap) {
+    static optimize(compilation, chunks, callback, options) {
+        const filter = ModuleFilenameHelpers.matchObject.bind(undefined, {test: /\.js($|\?)/i});
         for (let chunk of chunks) {
-            for (let file of chunk.files) {
+            for (let file of chunk.files.filter(filter)) {
                 const asset = compilation.assets[file];
-                const [source, map] = UglifyEsPlugin.extract(asset, withSourceMap);
-                const result = UglifyEsPlugin.process(file, source, withSourceMap);
+                const [source, map] = UglifyEsPlugin.extract(asset, options.sourceMap);
+                const result = UglifyEsPlugin.process(file, source, options);
 
                 if (result.error) {
                     compilation.errors.push(UglifyEsPlugin.exception(file, result.error));
                 } else {
-                    if (withSourceMap) {
+                    if (options.sourceMap) {
                         compilation.assets[file] = new SourceMapSource(result.code, file, result.map, source, map);
                     } else {
                         compilation.assets[file] = new RawSource(result.code);
@@ -74,12 +79,10 @@ class UglifyEsPlugin {
      *
      * @param {String}  filename      filename
      * @param {String}  source        content of the file
-     * @param {Boolean} withSourceMap enable sourcemap output
+     * @param {Object}  options       uglify-es options object
      * @returns {Object}
      */
-    static process(filename, source, withSourceMap) {
-        const options = withSourceMap ? {sourceMap: {filename, root: ''}} : {};
-
+    static process(filename, source, options) {
         return UglifyEs.minify({[filename]: source}, options);
     }
 

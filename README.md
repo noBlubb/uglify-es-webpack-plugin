@@ -4,7 +4,7 @@ Webpack with UglifyJs3 / Harmony for ES6 optimization. Tested with:
 - uglify-es 3.0.10
 
 ## Installation
-`npm install uglify-es-webpack-plugin` or `yarn add upglify-es-webpack-plugin`
+`npm install uglify-es-webpack-plugin` or `yarn add uglify-es-webpack-plugin`
 
 ## Usage
 ```javascript
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
     module.exports.devtool = 'source-map';
 
     module.exports.plugins = (module.exports.plugins || []).concat([
-        new UglifyEsPlugin()
+        new UglifyEsPlugin({ uglify-es options })
     ]);
 }
 ```
@@ -29,8 +29,7 @@ Make sure to not use `-p` anymore, as it will try to use the built-in UglifyJs p
  
  or the `--env` flag to set up your webpack configuration. 
 
-## Warning
+## Warnings
 - does not keep comments
 - no caching or other optimizations
 - error handling is untested and minimal
-- configuration is not passed through to uglify-es, defaults are used
