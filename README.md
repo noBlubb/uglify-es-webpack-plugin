@@ -3,6 +3,10 @@ Webpack with UglifyJs3 / Harmony for ES6 optimization. Tested with:
 - webpack 2.5.1
 - uglify-es 3.0.10
 
+# Deprecated
+This package always was and still is a dirty workaround to get you started with `uglify-es`.
+The original package over at [webpack-contrib/uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin) now features support for `uglify-es` in the latest beta, so I would recommend you to switch back to them as soon as possible, as they feature tests and a far more complete implementation.
+
 ## Installation
 `npm install uglify-es-webpack-plugin` or `yarn add uglify-es-webpack-plugin`
 
